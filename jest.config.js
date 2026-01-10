@@ -11,7 +11,7 @@ const config = {
                 useESM: true,
             },
         ],
-        "^.+\\.js$": "babel-jest",
+        "^.+\\.js$": ["babel-jest", { presets: [["@babel/preset-env", { targets: { node: "current" } }]] }],
     },
 
     transformIgnorePatterns: [

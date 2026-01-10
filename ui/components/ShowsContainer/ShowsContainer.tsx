@@ -36,9 +36,12 @@ export function ShowsContainer() {
                 {data?.map(({ show }) => (
                     <ShowCard
                         key={show.id}
+                        url={`show/${show.id}`}
                         title={show.name}
                         summary={show.summary}
                         image={show.image?.medium}
+                        genres={show.genres}
+                        rating={show.rating?.average}
                     />
                 ))}
             </div>
