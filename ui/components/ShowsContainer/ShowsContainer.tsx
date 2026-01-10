@@ -2,7 +2,7 @@
 
 import { Input } from "../baseComponents/Input/Input";
 import { useSearchShow } from "../../hooks/useSearchShow";
-import ShowCard from "../ShowCard/ShowCard";
+import { ShowCard } from "../ShowCard/ShowCard";
 import { ShowSkeleton } from "../ShowSkeleton/ShowSkeleton";
 
 export function ShowsContainer() {
@@ -36,6 +36,7 @@ export function ShowsContainer() {
                 {data?.map(({ show }) => (
                     <ShowCard
                         key={show.id}
+                        id={show.id}
                         url={`show/${show.id}`}
                         title={show.name}
                         summary={show.summary}

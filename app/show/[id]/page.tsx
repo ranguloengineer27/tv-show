@@ -1,15 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import { StarIcon } from "lucide-react";
+import { StarIcon, HeartIcon } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/ui/components/baseComponents/Card/Card";
+import { Button } from "@/ui/components/baseComponents/Button/Button";
 import { useShow } from "@/ui/hooks/useShow";
 import { use } from "react";
 import { ShowSkeleton } from "@/ui/components/ShowSkeleton/ShowSkeleton";
+import { useFavoritesStore } from "@/ui/hooks/useFavoritesStore";
+import { cn } from "@/lib/utils";
 
 export default function ShowPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
     const { data: show, isLoading, error } = useShow(id);
+    const { isFavorite, addFavorite, removeFavorite } = useFavoritesStore();
+
+    // Convert id to number for store consistency if needed, assuming id from params is string
+    // but store uses number. ShowDetails uses number.
+    const showId = parseInt(id, 10);
+    const isFav = isFavorite(showId);
+
+    const handleToggleFavorite = () => {
+        if (!show) return;
+
+        if (isFav) {
+            removeFavorite(showId);
+        } else {
+            addFavorite(show);
+        }
+    };
 
     if (isLoading) {
         return (
@@ -46,8 +65,17 @@ export default function ShowPage({ params }: { params: Promise<{ id: string }> }
                     </div>
                 )}
                 <div className="md:w-2/3 p-6">
-                    <CardHeader className="p-0 mb-4">
+                    <CardHeader className="p-0 mb-4 flex flex-row items-center justify-between">
                         <CardTitle className="text-3xl font-bold">{show.name}</CardTitle>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleToggleFavorite}
+                            className="gap-2"
+                        >
+                            <HeartIcon className={cn("h-4 w-4", isFav && "fill-red-500 text-red-500")} />
+                            {isFav ? "Remove from favorites" : "Add to favorites"}
+                        </Button>
                     </CardHeader>
 
                     <div className="flex items-center gap-2 mb-6">
