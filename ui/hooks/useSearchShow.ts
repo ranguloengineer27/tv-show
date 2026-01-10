@@ -2,8 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "./useDebounce";
 import { getShowsData } from "@/api/services/getShowsData";
 import { useState } from "react";
-
-const STALE_TIME = 1000 * 60 * 5;
+import { STALE_TIME } from "@/lib/constants";
 const QUERY_TIME = 400;
 
 export function useSearchShow() {

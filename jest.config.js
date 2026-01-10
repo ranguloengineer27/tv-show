@@ -20,6 +20,7 @@ const config = {
 
     moduleNameMapper: {
         "^@/(.*)$": "<rootDir>/$1",
+        "\\.(css|less|scss|sass)$": "<rootDir>/tests/mocks/styleMock.js",
     },
 
     setupFilesAfterEnv: ["<rootDir>/jest.polyfills.ts", "<rootDir>/jest.setup.ts"],

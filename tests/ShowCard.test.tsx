@@ -1,9 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import ShowCard from "@/ui/components/ShowCard/ShowCard";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
-jest.mock("next/router", () => ({
-    push: jest.fn(),
+jest.mock("next/navigation", () => ({
+    useRouter: jest.fn(),
 }));
 
 describe("ShowCard", () => {
@@ -62,7 +62,7 @@ describe("ShowCard", () => {
 
     it("should navigate to the correct url when 'See more' button is clicked", () => {
         const pushMock = jest.fn();
-        router.push = pushMock;
+        (useRouter as jest.Mock).mockReturnValue({ push: pushMock });
 
         render(<ShowCard {...defaultProps} />);
         const button = screen.getByText("See more");

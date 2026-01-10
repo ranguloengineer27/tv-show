@@ -1,8 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../baseComponents/Card/Card";
 import { StarIcon } from "lucide-react";
 import { Button } from "../baseComponents/Button/Button";
-import router from "next/router";
+import { useRouter } from "next/navigation";
+import styles from "./ShowCard.module.css";
+import { cn } from "@/lib/utils";
 
 export type ShowCardProps = {
     title: string;
@@ -14,8 +18,11 @@ export type ShowCardProps = {
 };
 
 function ShowCard({ title, summary, image, genres, rating, url }: ShowCardProps) {
+    const router = useRouter();
+    const navigateToPage = () => router.push(url);
+
     return (
-        <Card>
+        <Card onClick={navigateToPage} className="cursor-pointer">
             {image && (
                 <div className="relative h-48 w-full">
                     <Image
@@ -47,7 +54,7 @@ function ShowCard({ title, summary, image, genres, rating, url }: ShowCardProps)
             {summary && (
                 <CardContent>
                     <div
-                        className="text-sm text-muted-foreground"
+                        className={cn("text-sm text-muted-foreground", styles.summary)}
                         dangerouslySetInnerHTML={{ __html: summary }}
                     />
                 </CardContent>
@@ -72,7 +79,7 @@ function ShowCard({ title, summary, image, genres, rating, url }: ShowCardProps)
                 <Button
                     variant="outline"
                     className="cursor-pointer"
-                    onClick={() => router.push(url)}
+                    onClick={navigateToPage}
                 >
                     See more
                 </Button>
