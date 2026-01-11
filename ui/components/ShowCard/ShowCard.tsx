@@ -53,7 +53,7 @@ export function ShowCard({
     };
 
     return (
-        <Card className="overflow-hidden flex flex-col h-full relative group" onClick={navigateToPage}>
+        <Card className="overflow-hidden flex flex-col h-full relative group cursor-pointer" onClick={navigateToPage}>
             <Button
                 variant="ghost"
                 size="icon"
