@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { StarIcon, HeartIcon } from "lucide-react";
+import { StarIcon, HeartIcon, TvIcon } from "lucide-react";
 import { CardContent, CardHeader, CardTitle } from "@/ui/components/baseComponents/Card/Card";
 import { Button } from "@/ui/components/baseComponents/Button/Button";
 import { useShow } from "@/ui/hooks/useShow";
@@ -49,19 +49,21 @@ export default function ShowPage({ params }: { params: Promise<{ id: string }> }
     return (
         <div className="container mx-auto py-8 px-4">
             <div className="md:flex">
-                {show.image && (
-                    <div className="md:w-1/3">
-                        <Image
-                            src={show.image.original || show.image.medium}
-                            alt={show.name}
-                            width={0}
-                            height={0}
-                            sizes="100vw"
-                            className="w-full h-auto rounded-lg"
-                            priority
-                        />
+                <div className="md:w-1/3">
+                    <div className="relative aspect-[2/3] w-full bg-muted rounded-lg overflow-hidden flex items-center justify-center">
+                        {show.image ? (
+                            <Image
+                                src={show.image.original || show.image.medium}
+                                alt={show.name}
+                                fill
+                                className="object-cover"
+                                priority
+                            />
+                        ) : (
+                            <TvIcon className="h-24 w-24 text-muted-foreground/50" />
+                        )}
                     </div>
-                )}
+                </div>
                 <div className="md:w-2/3 p-6">
                     <CardHeader className="p-0 mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <CardTitle className="text-3xl font-bold">{show.name}</CardTitle>
@@ -103,28 +105,28 @@ export default function ShowPage({ params }: { params: Promise<{ id: string }> }
                             <div>
                                 <span className="font-semibold block text-muted-foreground">Network</span>
                                 <span>{show.network.name} ({show.network.country.code})</span>
-                                <span className="block text-xs text-muted-foreground">{show.network.country.timezone} timezone</span>
                             </div>
                         )}
                         {show.schedule && show.schedule.days.length > 0 && (
                             <div>
                                 <span className="font-semibold block text-muted-foreground">Schedule</span>
                                 <span>{show.schedule.days.join(", ")} at {show.schedule.time}</span>
+                                <span className="text-xs text-muted-foreground"> - {show.network.country.timezone} timezone</span>
                             </div>
                         )}
                     </div>
 
-                    <hr className="mb-6" />
-
                     {show.summary && (
-                        <CardContent className="p-0">
-                            <div
-                                className="prose dark:prose-invert max-w-none"
-                                dangerouslySetInnerHTML={{ __html: show.summary }}
-                            />
-                        </CardContent>
+                        <>
+                            <hr className="mb-6" />
+                            <CardContent className="p-0">
+                                <div
+                                    className="prose dark:prose-invert max-w-none"
+                                    dangerouslySetInnerHTML={{ __html: show.summary }}
+                                />
+                            </CardContent>
+                        </>
                     )}
-
                 </div>
             </div>
         </div>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../baseComponents/Card/Card";
-import { StarIcon, HeartIcon } from "lucide-react";
+import { StarIcon, HeartIcon, TvIcon } from "lucide-react";
 import { Button } from "../baseComponents/Button/Button";
 import { useRouter } from "next/navigation";
 import styles from "./ShowCard.module.css";
@@ -69,14 +69,18 @@ export function ShowCard({
                 <HeartIcon className={cn("h-5 w-5", isFav && "fill-red-500 text-red-500")} />
             </Button>
 
-            <div className="relative h-48 w-full">
-                {image && (<Image
-                    src={image}
-                    alt={`Poster for ${title}`}
-                    fill
-                    className="object-cover rounded-t-lg"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />)}
+            <div className="relative aspect-[2/3] w-full bg-muted flex items-center justify-center">
+                {image ? (
+                    <Image
+                        src={image}
+                        alt={`Poster for ${title}`}
+                        fill
+                        className="object-cover rounded-t-lg"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                ) : (
+                    <TvIcon className="h-12 w-12 text-muted-foreground/50" />
+                )}
             </div>
 
 
