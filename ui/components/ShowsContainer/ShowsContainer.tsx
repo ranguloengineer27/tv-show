@@ -38,6 +38,7 @@ export function ShowsContainer() {
                 value={search}
                 onChange={(e) => onSearchChange(e.target.value)}
                 className="max-w-md w-full"
+                aria-label="Search TV shows"
             />
 
             <ShowsContainerFallbacks

@@ -63,13 +63,13 @@ export default function ShowPage({ params }: { params: Promise<{ id: string }> }
                     </div>
                 )}
                 <div className="md:w-2/3 p-6">
-                    <CardHeader className="p-0 mb-4 flex flex-row items-center justify-between">
+                    <CardHeader className="p-0 mb-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <CardTitle className="text-3xl font-bold">{show.name}</CardTitle>
                         <Button
                             variant="outline"
                             size="sm"
                             onClick={handleToggleFavorite}
-                            className="gap-2"
+                            className="gap-2 w-[200px] justify-center"
                         >
                             <HeartIcon className={cn("h-4 w-4", isFav && "fill-red-500 text-red-500")} />
                             {isFav ? "Remove from favorites" : "Add to favorites"}

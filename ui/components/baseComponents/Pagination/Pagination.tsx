@@ -140,6 +140,7 @@ export function Pagination({
                             <PaginationLink
                                 isActive={currentPage === page}
                                 onClick={() => onPageChange(page)}
+                                aria-label={`Go to page ${page}`}
                             >
                                 {page}
                             </PaginationLink>
