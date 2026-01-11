@@ -15,6 +15,10 @@ jest.mock("@/ui/hooks/useFavoritesStore", () => ({
     })),
 }));
 
+jest.mock("@/ui/components/ShowSkeleton/ShowSkeleton", () => ({
+    ShowSkeleton: () => <div data-testid="show-skeleton" />,
+}));
+
 jest.mock("next/image", () => ({
     __esModule: true,
     default: ({ priority, fill, ...props }: any) => {
@@ -91,5 +95,45 @@ describe("ShowsContainer", () => {
         expect(screen.getByText("1")).toBeInTheDocument();
         expect(screen.getByText("2")).toBeInTheDocument();
         expect(screen.getByText("3")).toBeInTheDocument();
+    });
+
+    it("should render loading state", () => {
+        (useSearchShow as jest.Mock).mockReturnValue({
+            search: "test",
+            onSearchChange: mockOnSearchChange,
+            data: [],
+            isLoading: true,
+            error: null,
+        });
+
+        render(<ShowsContainer />);
+        // ShowsContainerFallbacks renders 6 skeletons
+        expect(screen.getAllByTestId("show-skeleton")).toHaveLength(6);
+    });
+
+    it("should render error state", () => {
+        (useSearchShow as jest.Mock).mockReturnValue({
+            search: "test",
+            onSearchChange: mockOnSearchChange,
+            data: [],
+            isLoading: false,
+            error: { message: "Error" },
+        });
+
+        render(<ShowsContainer />);
+        expect(screen.getByText(/Error loading shows/i)).toBeInTheDocument();
+    });
+
+    it("should render empty state", () => {
+        (useSearchShow as jest.Mock).mockReturnValue({
+            search: "test",
+            onSearchChange: mockOnSearchChange,
+            data: [],
+            isLoading: false,
+            error: null,
+        });
+
+        render(<ShowsContainer />);
+        expect(screen.getByText(/No shows found/i)).toBeInTheDocument();
     });
 });
