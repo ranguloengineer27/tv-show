@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HeartIcon, HomeIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "../ThemeToggle/ThemeToggle";
 
 export function Header() {
     const pathname = usePathname();
@@ -39,6 +40,9 @@ export function Header() {
                         <HeartIcon className="h-4 w-4" />
                         <span>Favorites</span>
                     </Link>
+                    <div className="ml-2 border-l pl-4 dark:border-zinc-800">
+                        <ThemeToggle />
+                    </div>
                 </nav>
             </div>
         </header>

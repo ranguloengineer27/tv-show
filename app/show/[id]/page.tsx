@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { StarIcon, HeartIcon } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/ui/components/baseComponents/Card/Card";
+import { CardContent, CardHeader, CardTitle } from "@/ui/components/baseComponents/Card/Card";
 import { Button } from "@/ui/components/baseComponents/Button/Button";
 import { useShow } from "@/ui/hooks/useShow";
 import { use } from "react";
@@ -33,9 +33,7 @@ export default function ShowPage({ params }: { params: Promise<{ id: string }> }
     if (isLoading) {
         return (
             <div className="container mx-auto py-8 px-4">
-                <Card className="overflow-hidden">
-                    <ShowSkeleton variant="details" />
-                </Card>
+                <ShowSkeleton variant="details" />
             </div>
         );
     }
