@@ -1,18 +1,19 @@
 "use client";
 
 import { ShowSkeleton } from "../ShowSkeleton/ShowSkeleton";
+import { getErrorMessage } from "@/lib/errors";
 
-type ShowsContainerFallbacksProps = {
+type ShowsListFallbackProps = {
     isLoading: boolean;
-    error: any;
+    error: Error | null;
     isEmpty: boolean;
 };
 
-export function ShowsContainerFallbacks({
+export function ShowsListFallback({
     isLoading,
     error,
     isEmpty,
-}: ShowsContainerFallbacksProps) {
+}: ShowsListFallbackProps) {
     if (isLoading) {
         return (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -26,7 +27,7 @@ export function ShowsContainerFallbacks({
     if (error) {
         return (
             <div className="text-red-500">
-                Error loading shows. Please try again.
+                {getErrorMessage(error)}
             </div>
         );
     }

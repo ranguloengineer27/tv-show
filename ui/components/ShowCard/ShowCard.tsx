@@ -9,6 +9,7 @@ import styles from "./ShowCard.module.css";
 import { cn } from "@/lib/utils";
 import { useFavoritesStore } from "@/ui/hooks/useFavoritesStore";
 import { ShowDetails } from "@/api/types/Shows";
+import { useIsMounted } from "@/ui/hooks/useIsMounted";
 
 export type ShowCardProps = {
     id: number;
@@ -30,8 +31,9 @@ export function ShowCard({
     url,
 }: ShowCardProps) {
     const router = useRouter();
+    const isMounted = useIsMounted();
     const { isFavorite, addFavorite, removeFavorite } = useFavoritesStore();
-    const isFav = isFavorite(id);
+    const isFav = isMounted ? isFavorite(id) : false;
 
     const navigateToPage = () => router.push(url);
 

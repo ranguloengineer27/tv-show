@@ -12,7 +12,7 @@ describe("ShowSkeleton", () => {
         const skeletons = getAllByTestId("skeleton");
         // Card variant has 4 skeletons
         expect(skeletons).toHaveLength(4);
-        expect(skeletons[0]).toHaveClass("h-48");
+        expect(skeletons[0]).toHaveClass("aspect-[2/3]");
     });
 
     it("should render details variant", () => {
@@ -20,6 +20,6 @@ describe("ShowSkeleton", () => {
         const skeletons = getAllByTestId("skeleton");
         // Details variant has 5 skeletons
         expect(skeletons).toHaveLength(5);
-        expect(skeletons[0]).toHaveClass("h-96");
+        expect(skeletons[0]).toHaveClass("aspect-[2/3]");
     });
 });

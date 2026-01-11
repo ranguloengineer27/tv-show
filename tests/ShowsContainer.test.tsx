@@ -1,6 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ShowsContainer } from "@/ui/components/ShowsContainer/ShowsContainer";
 import { useSearchShow } from "@/ui/hooks/useSearchShow";
+import { QueryWrapper } from "./test-utils";
+import * as getShowsDataModule from "@/api/services/getShowsData";
 
 // Mock hooks
 jest.mock("@/ui/hooks/useSearchShow");
@@ -26,6 +28,9 @@ jest.mock("next/image", () => ({
         return <img {...props} />;
     },
 }));
+
+// Mock getAllShows
+jest.spyOn(getShowsDataModule, "getAllShows").mockResolvedValue([]);
 
 describe("ShowsContainer", () => {
     const mockData = Array.from({ length: 15 }, (_, i) => ({
@@ -57,26 +62,26 @@ describe("ShowsContainer", () => {
     });
 
     it("should render the first page of items", () => {
-        render(<ShowsContainer />);
-        // ITEMS_PER_PAGE is 6
+        render(<ShowsContainer />, { wrapper: QueryWrapper });
+        // ITEMS_PER_PAGE is 8
         expect(screen.getByText("Show 1")).toBeInTheDocument();
-        expect(screen.getByText("Show 6")).toBeInTheDocument();
-        expect(screen.queryByText("Show 7")).not.toBeInTheDocument();
+        expect(screen.getByText("Show 8")).toBeInTheDocument();
+        expect(screen.queryByText("Show 9")).not.toBeInTheDocument();
     });
 
     it("should navigate to the next page", () => {
-        render(<ShowsContainer />);
+        render(<ShowsContainer />, { wrapper: QueryWrapper });
 
         const nextButton = screen.getByLabelText("Go to next page");
         fireEvent.click(nextButton);
 
-        expect(screen.getByText("Show 7")).toBeInTheDocument();
+        expect(screen.getByText("Show 9")).toBeInTheDocument();
         expect(screen.queryByText("Show 1")).not.toBeInTheDocument();
         expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "smooth" });
     });
 
     it("should navigate to the previous page", () => {
-        render(<ShowsContainer />);
+        render(<ShowsContainer />, { wrapper: QueryWrapper });
 
         // Go to page 2 first
         const nextButton = screen.getByLabelText("Go to next page");
@@ -90,11 +95,10 @@ describe("ShowsContainer", () => {
     });
 
     it("should render pagination numbers", () => {
-        render(<ShowsContainer />);
-        // 15 items / 6 per page = 3 pages
+        render(<ShowsContainer />, { wrapper: QueryWrapper });
+        // 15 items / 8 per page = 2 pages
         expect(screen.getByText("1")).toBeInTheDocument();
         expect(screen.getByText("2")).toBeInTheDocument();
-        expect(screen.getByText("3")).toBeInTheDocument();
     });
 
     it("should render loading state", () => {
@@ -106,22 +110,23 @@ describe("ShowsContainer", () => {
             error: null,
         });
 
-        render(<ShowsContainer />);
-        // ShowsContainerFallbacks renders 6 skeletons
+        render(<ShowsContainer />, { wrapper: QueryWrapper });
+        // ShowsListFallback renders 6 skeletons
         expect(screen.getAllByTestId("show-skeleton")).toHaveLength(6);
     });
 
     it("should render error state", () => {
+        const error = new Error("Test error");
         (useSearchShow as jest.Mock).mockReturnValue({
             search: "test",
             onSearchChange: mockOnSearchChange,
             data: [],
             isLoading: false,
-            error: { message: "Error" },
+            error,
         });
 
-        render(<ShowsContainer />);
-        expect(screen.getByText(/Error loading shows/i)).toBeInTheDocument();
+        render(<ShowsContainer />, { wrapper: QueryWrapper });
+        expect(screen.getByText("Test error")).toBeInTheDocument();
     });
 
     it("should render empty state", () => {
@@ -133,7 +138,7 @@ describe("ShowsContainer", () => {
             error: null,
         });
 
-        render(<ShowsContainer />);
+        render(<ShowsContainer />, { wrapper: QueryWrapper });
         expect(screen.getByText(/No shows found/i)).toBeInTheDocument();
     });
 });

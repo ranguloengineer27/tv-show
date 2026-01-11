@@ -3,12 +3,12 @@
 
 import { Input } from "../baseComponents/Input/Input";
 import { useSearchShow } from "../../hooks/useSearchShow";
-import { ShowCard } from "../ShowCard/ShowCard";
-import { ShowsContainerFallbacks } from "./ShowsContainerFallbacks";
-import { Pagination } from "../baseComponents/Pagination/Pagination";
+import { ShowsList } from "./ShowsList";
 import { usePagination } from "../../hooks/usePagination";
+import { getAllShows } from "@/api/services/getShowsData";
+import { useQuery } from "@tanstack/react-query";
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 8;
 
 export function ShowsContainer() {
     const {
@@ -19,13 +19,20 @@ export function ShowsContainer() {
         error,
     } = useSearchShow();
 
+    const { data: shows } = useQuery({
+        queryKey: ["all-shows"],
+        queryFn: () => getAllShows(),
+    });
+
+    const showsData = data?.map((show) => show.show);
+
     const {
         currentPage,
         totalPages,
         currentData,
         handlePageChange,
     } = usePagination({
-        data,
+        data: showsData ?? shows,
         itemsPerPage: ITEMS_PER_PAGE,
         resetDependency: search,
     });
@@ -41,39 +48,15 @@ export function ShowsContainer() {
                 aria-label="Search TV shows"
             />
 
-            <ShowsContainerFallbacks
+            <ShowsList
+                data={currentData ?? shows}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
                 isLoading={isLoading}
                 error={error}
                 isEmpty={!isLoading && !error && currentData?.length === 0}
             />
-
-            {!isLoading && !error && currentData?.length > 0 && (
-                <>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        {currentData.map(({ show }) => (
-                            <ShowCard
-                                key={show.id}
-                                id={show.id}
-                                url={`show/${show.id}`}
-                                title={show.name}
-                                summary={show.summary}
-                                image={show.image?.medium}
-                                genres={show.genres}
-                                rating={show.rating?.average}
-                            />
-                        ))}
-                    </div>
-
-                    {totalPages > 1 && (
-                        <Pagination
-                            className="mt-8"
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={handlePageChange}
-                        />
-                    )}
-                </>
-            )}
         </div>
     );
 }

@@ -2,9 +2,14 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { ShowCard } from "@/ui/components/ShowCard/ShowCard";
 import { useRouter } from "next/navigation";
 import { useFavoritesStore } from "@/ui/hooks/useFavoritesStore";
+import { useIsMounted } from "@/ui/hooks/useIsMounted";
 
 jest.mock("@/ui/hooks/useFavoritesStore", () => ({
     useFavoritesStore: jest.fn(),
+}));
+
+jest.mock("@/ui/hooks/useIsMounted", () => ({
+    useIsMounted: jest.fn(),
 }));
 
 jest.mock("next/navigation", () => ({
@@ -27,6 +32,9 @@ describe("ShowCard", () => {
     const mockIsFavorite = jest.fn();
 
     beforeEach(() => {
+        // Mock useIsMounted to return true so favorite button labels are available
+        (useIsMounted as jest.Mock).mockReturnValue(true);
+
         // @ts-ignore
         useFavoritesStore.mockReturnValue({
             addFavorite: mockAddFavorite,
@@ -47,7 +55,7 @@ describe("ShowCard", () => {
 
     it("should render the image with correct alt text", () => {
         render(<ShowCard {...defaultProps} />);
-        const image = screen.getByRole("img", { name: "Test Show" });
+        const image = screen.getByRole("img", { name: "Poster for Test Show" });
         expect(image).toBeInTheDocument();
         expect(image).toHaveAttribute("src");
     });
@@ -75,7 +83,7 @@ describe("ShowCard", () => {
 
     it("should not render image container if image is missing", () => {
         render(<ShowCard {...defaultProps} image={undefined} />);
-        const image = screen.queryByRole("img", { name: "Test Show" });
+        const image = screen.queryByRole("img", { name: "Poster for Test Show" });
         expect(image).not.toBeInTheDocument();
     });
 
@@ -97,7 +105,7 @@ describe("ShowCard", () => {
 
     it("should toggle favorite status when heart button is clicked", () => {
         render(<ShowCard {...defaultProps} />);
-        const button = screen.getByLabelText("Add to favorites");
+        const button = screen.getByLabelText("Add Test Show to favorites");
 
         fireEvent.click(button);
         expect(mockAddFavorite).toHaveBeenCalledWith(expect.objectContaining({
@@ -107,7 +115,7 @@ describe("ShowCard", () => {
 
         mockIsFavorite.mockReturnValue(true);
         render(<ShowCard {...defaultProps} />);
-        const removeButton = screen.getByLabelText("Remove from favorites");
+        const removeButton = screen.getByLabelText("Remove Test Show from favorites");
         fireEvent.click(removeButton);
         expect(mockRemoveFavorite).toHaveBeenCalledWith(1);
     });
