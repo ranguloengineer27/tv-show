@@ -5,7 +5,7 @@ import { Input } from "../baseComponents/Input/Input";
 import { useSearchShow } from "../../hooks/useSearchShow";
 import { ShowsList } from "./ShowsList";
 import { usePagination } from "../../hooks/usePagination";
-import { getAllShows } from "@/api/services/getShowsData";
+import { getAllShows } from "@/api/services/showsService";
 import { useQuery } from "@tanstack/react-query";
 
 const ITEMS_PER_PAGE = 8;

@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { ShowsContainer } from "@/ui/components/ShowsContainer/ShowsContainer";
 import { useSearchShow } from "@/ui/hooks/useSearchShow";
 import { QueryWrapper } from "./test-utils";
-import * as getShowsDataModule from "@/api/services/getShowsData";
+import * as getShowsDataModule from "@/api/services/showsService";
 
 // Mock hooks
 jest.mock("@/ui/hooks/useSearchShow");

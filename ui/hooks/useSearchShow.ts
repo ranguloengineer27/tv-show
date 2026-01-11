@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "./useDebounce";
-import { getShowsData } from "@/api/services/getShowsData";
+import { getShowsData } from "@/api/services/showsService";
 import { useState } from "react";
 import { STALE_TIME } from "@/lib/constants";
 const QUERY_TIME = 400;
