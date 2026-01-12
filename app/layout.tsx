@@ -1,5 +1,6 @@
 "use client";
 
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/ui/components/Providers/Providers";
@@ -17,10 +18,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+/* export const metadata: Metadata = {
   title: "TV Shows",
   description: "Search your favorite tv shows",
-};
+}; */
 
 export default function RootLayout({
   children,
