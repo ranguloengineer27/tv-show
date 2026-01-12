@@ -14,7 +14,7 @@ jest.mock("react", () => ({
 
 jest.mock("next/image", () => ({
     __esModule: true,
-    default: ({ priority, ...props }: any) => {
+    default: ({ priority, fill, ...props }: any) => {
         // eslint-disable-next-line @next/next/no-img-element
         return <img {...props} />;
     },
