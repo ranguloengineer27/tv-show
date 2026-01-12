@@ -1,5 +1,5 @@
 import { onCLS, onINP, onLCP, Metric } from "web-vitals"
-import { reportWebVitalsAction } from "@/app/actions/reportWebVitals"
+import { reportWebVitalsAction } from "@/app/actions/reportWebVitalsAction"
 
 function sendToAnalytics(metric: Metric) {
   const payload = {
@@ -15,11 +15,7 @@ function sendToAnalytics(metric: Metric) {
       (navigator as any).connection?.effectiveType,
   }
 
-  fetch("/actions/reportWebVitalsAction", {
-    method: "POST",
-    body: JSON.stringify(payload),
-    keepalive: true,
-  })
+  reportWebVitalsAction(payload)
 }
 
 export function reportWebVitals() {
