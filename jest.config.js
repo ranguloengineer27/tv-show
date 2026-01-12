@@ -2,6 +2,11 @@ const config = {
     preset: "ts-jest/presets/default-esm",
     testEnvironment: "jsdom",
 
+    testMatch: [
+        "<rootDir>/**/*.test.tsx",
+        "<rootDir>/**/*.test.ts",
+      ],
+
     extensionsToTreatAsEsm: [".ts", ".tsx"],
 
     transform: {
@@ -15,7 +20,8 @@ const config = {
     },
 
     transformIgnorePatterns: [
-        "node_modules/(?!(\\.pnpm|msw|@mswjs|until-async)/)"
+        "node_modules/(?!(\\.pnpm|msw|@mswjs|until-async)/)",
+        "/e2e/"
     ],
 
     moduleNameMapper: {

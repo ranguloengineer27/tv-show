@@ -15,7 +15,7 @@ export async function reportWebVitalsAction(metric: any) {
       timestamp: Date.now(),
     }
 
-    console.log("[WebVitals]", data)
+    console.log("[WebVitals]", data) // this is log in Vercel
 
     // 👉 In real prod:
     // - forward to BigQuery

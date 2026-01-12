@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
+    "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

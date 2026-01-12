@@ -1,6 +1,7 @@
 # TV Shows Explorer
 
 A modern, responsive web application for browsing and managing TV shows, built with Next.js 16, React 19, and TypeScript.
+Application is deployed in Vercel, here is the prod url: https://tv-show-indol.vercel.app/
 
 ## Features
 
@@ -8,9 +9,9 @@ A modern, responsive web application for browsing and managing TV shows, built w
 - ⭐ **Favorites Management**: Save and manage your favorite shows with persistent storage
 - 🎨 **Dark Mode**: Toggle between light and dark themes
 - 📱 **Responsive Design**: Optimized for all screen sizes
-- ⚡ **Performance Optimized**: Client-side caching, skeleton loading states, and optimized images
+- ⚡ **Performance Optimized**: Client and server-side caching, skeleton loading states, and optimized images
 - ♿ **Accessible**: Built with accessibility best practices
-- 🧪 **Well Tested**: Comprehensive test coverage with Jest and React Testing Library
+- 🧪 **Well Tested**: Comprehensive test coverage with Jest and React Testing Library for unit tests and Playwright for e2e tests
 
 ## Tech Stack
 
@@ -22,20 +23,20 @@ A modern, responsive web application for browsing and managing TV shows, built w
 - **Data Fetching**: [TanStack Query](https://tanstack.com/query)
 - **Theme Management**: [next-themes](https://github.com/pacocoursey/next-themes)
 - **Icons**: [Lucide React](https://lucide.dev/)
-- **Testing**: [Jest](https://jestjs.io/) + [React Testing Library](https://testing-library.com/react)
+- **Testing**: [Jest](https://jestjs.io/) + [React Testing Library](https://testing-library.com/react) and [Playwright](https://playwright.dev/)
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 20 or higher
+- Node.js 20.9.0 or higher
 - pnpm 10.20.0 or higher
 
 ### Installation
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone git@github.com:ranguloengineer27/tv-show.git
 cd tv-shows
 ```
 
@@ -59,12 +60,15 @@ pnpm dev
 - `pnpm lint` - Run ESLint
 - `pnpm test` - Run tests
 - `pnpm test:watch` - Run tests in watch mode
+- `pnpm test:coverage` - Run tests and show test coverage
+- `pnpm test:e2e` - Run e2e tests
 
 ## Project Structure
 
 ```
 tv-shows/
 ├── app/                      # Next.js App Router pages
+│   ├── actions/             # Server actions
 │   ├── favorites/           # Favorites page
 │   ├── show/[id]/          # Show details page
 │   ├── layout.tsx          # Root layout
@@ -77,9 +81,12 @@ tv-shows/
 │   │   ├── baseComponents/ # Reusable base components
 │   │   ├── Favorites/      # Favorites-related components
 │   │   ├── Header/         # Header component
+│   │   ├── Providers/         # Providers components
 │   │   ├── ShowCard/       # Show card component
 │   │   ├── ShowDetails/    # Show details components
 │   │   └── ShowsContainer/ # Shows container components
+│   │   └── ShowsSkeleton/ # Skeleton components
+│   │   └── ThemeToggle/   # Theme toggling component
 │   └── hooks/              # Custom React hooks
 ├── lib/                     # Utility functions and constants
 ├── tests/                   # Test files
@@ -131,6 +138,12 @@ Run tests in watch mode:
 pnpm test:watch
 ```
 
-## License
+Run tests in with coverage:
+```bash
+pnpm test:coverage
+```
 
-This project is private and not licensed for public use.
+Run e2e tests:
+```bash
+pnpm test:e2e
+```
