@@ -1,4 +1,4 @@
-import { FavoritesList } from "@/ui/components/Favorites/FavoritesList";
+import { FavoritesListContainer } from "@/ui/components/Favorites/FavoritesListContainer";
 
 export default function FavoritesPage() {
     return (
@@ -8,7 +8,7 @@ export default function FavoritesPage() {
                     <h1 className="text-3xl font-bold">Your Favorites</h1>
                     <p className="text-muted-foreground">Shows you've saved to watch later</p>
                 </header>
-                <FavoritesList />
+                <FavoritesListContainer />
             </main>
         </div>
     );

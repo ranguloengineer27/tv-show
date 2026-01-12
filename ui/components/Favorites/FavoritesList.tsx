@@ -1,23 +1,31 @@
-"use client";
+import { ShowCard } from "@/ui/components/ShowCard/ShowCard";
+import { ShowDetails } from "@/api/types/Shows";
+import { FavoritesListFallbacks } from "./FavoritesListFallbacks";
 
-import { useFavoritesStore } from "@/ui/hooks/useFavoritesStore";
-import { useIsMounted } from "@/ui/hooks/useIsMounted";
-import { ShowSkeleton } from "@/ui/components/ShowSkeleton/ShowSkeleton";
-import { FavoritesListContent } from "./FavoritesListContent";
+type FavoritesListProps = {
+    favorites: ShowDetails[];
+};
 
-export function FavoritesList() {
-    const isMounted = useIsMounted();
-    const { favorites } = useFavoritesStore();
-
-    if (!isMounted) {
-        return (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
-                {Array.from({ length: 4 }).map((_, i) => (
-                    <ShowSkeleton key={i} />
-                ))}
-            </div>
-        );
+export function FavoritesList({ favorites }: FavoritesListProps) {
+    if (favorites.length === 0) {
+        return <FavoritesListFallbacks />;
     }
 
-    return <FavoritesListContent favorites={favorites} />;
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
+            {favorites.map((show) => (
+                <ShowCard
+                    key={show.id}
+                    id={show.id}
+                    url={`/show/${show.id}`}
+                    title={show.name}
+                    summary={show.summary}
+                    image={show.image?.medium}
+                    genres={show.genres}
+                    rating={show.rating?.average}
+                />
+            ))}
+        </div>
+    );
 }
+

@@ -7,8 +7,8 @@ import { ShowsList } from "./ShowsList";
 import { usePagination } from "../../hooks/usePagination";
 import { getAllShows } from "@/api/services/showsService";
 import { useQuery } from "@tanstack/react-query";
-
-const ITEMS_PER_PAGE = 8;
+import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { Pagination } from "../baseComponents/Pagination/Pagination";
 
 export function ShowsContainer() {
     const {
@@ -21,7 +21,10 @@ export function ShowsContainer() {
 
     const { data: shows } = useQuery({
         queryKey: ["all-shows"],
-        queryFn: () => getAllShows(),
+        queryFn: async () => {
+            const allShows = await getAllShows();
+            return allShows?.slice(0, ITEMS_PER_PAGE+1) ?? [];
+        },
     });
 
     const showsData = data?.map((show) => show.show);
@@ -50,13 +53,19 @@ export function ShowsContainer() {
 
             <ShowsList
                 data={currentData ?? shows}
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={handlePageChange}
                 isLoading={isLoading}
                 error={error}
                 isEmpty={!isLoading && !error && currentData?.length === 0}
             />
+
+            {totalPages > 1 && (
+                <Pagination
+                    className="mt-8"
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                />
+            )}
         </div>
     );
 }
