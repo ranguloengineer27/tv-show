@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/ui/components/Providers/Providers";
 import { Header } from "@/ui/components/Header/Header";
+import { useEffect } from "react";
+import { reportWebVitals } from "@/lib/webVitalsClient";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,6 +26,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  useEffect(() => {
+    reportWebVitals()
+  }, [])
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
