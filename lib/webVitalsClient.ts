@@ -15,7 +15,10 @@ function sendToAnalytics(metric: Metric) {
       (navigator as any).connection?.effectiveType,
   }
 
-  reportWebVitalsAction(payload)
+  // Silently ignore errors during test runs or server shutdown
+  reportWebVitalsAction(payload).catch(() => {
+    // Errors are expected during test runs when server shuts down
+  })
 }
 
 export function reportWebVitals() {
